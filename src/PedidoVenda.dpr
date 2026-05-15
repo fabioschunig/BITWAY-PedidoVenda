@@ -5,7 +5,14 @@ uses
   Vcl.Forms,
   UMain in 'app\UMain.pas' {fMain},
   UConfigINI in 'connection\UConfigINI.pas',
-  UDM in 'connection\UDM.pas' {fDM: TDataModule};
+  UDM in 'connection\UDM.pas' {fDM: TDataModule},
+  UCliente in 'entities\UCliente.pas',
+  UProduto in 'entities\UProduto.pas',
+  UPedidoItem in 'entities\UPedidoItem.pas',
+  UPedido in 'entities\UPedido.pas',
+  UClienteRepository in 'repositories\UClienteRepository.pas',
+  UProdutoRepository in 'repositories\UProdutoRepository.pas',
+  UPedidoRepository in 'repositories\UPedidoRepository.pas';
 
 {$R *.res}
 

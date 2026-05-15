@@ -135,6 +135,13 @@
             <Form>fDM</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="entities\UCliente.pas"/>
+        <DCCReference Include="entities\UProduto.pas"/>
+        <DCCReference Include="entities\UPedidoItem.pas"/>
+        <DCCReference Include="entities\UPedido.pas"/>
+        <DCCReference Include="repositories\UClienteRepository.pas"/>
+        <DCCReference Include="repositories\UProdutoRepository.pas"/>
+        <DCCReference Include="repositories\UPedidoRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

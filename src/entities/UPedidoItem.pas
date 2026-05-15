@@ -6,8 +6,8 @@ type
   TPedidoItem = class
   private
     FID: Integer;
-    FNumeroPedido: Integer;
     FCodigoProduto: Integer;
+    FDescricaoProduto: string;
     FQuantidade: Double;
     FVlrUnitario: Currency;
     FVlrTotal: Currency;
@@ -18,8 +18,8 @@ type
     procedure RecalcularTotal;
   public
     property ID: Integer read FID write FID;
-    property NumeroPedido: Integer read FNumeroPedido write FNumeroPedido;
     property CodigoProduto: Integer read FCodigoProduto write FCodigoProduto;
+    property DescricaoProduto: string read FDescricaoProduto write FDescricaoProduto;
     property Quantidade: Double read FQuantidade write SetQuantidade;
     property VlrUnitario: Currency read FVlrUnitario write SetVlrUnitario;
     property VlrTotal: Currency read FVlrTotal;
