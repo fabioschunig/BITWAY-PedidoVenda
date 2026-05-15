@@ -13,7 +13,10 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   {$ENDIF }
   DUnitX.TestFramework,
-  UPedidoVendaTests in 'tests\UPedidoVendaTests.pas';
+  UPedidoVendaTests in 'tests\UPedidoVendaTests.pas',
+  UPedido in 'entities\UPedido.pas',
+  UPedidoItem in 'entities\UPedidoItem.pas',
+  UEntityBase in 'entities\UEntityBase.pas';
 
 { keep comment here to protect the following conditional from being removed by the IDE when adding a unit }
 {$IFNDEF TESTINSIGHT}

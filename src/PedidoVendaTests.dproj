@@ -95,6 +95,9 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="tests\UPedidoVendaTests.pas"/>
+        <DCCReference Include="entities\UPedido.pas"/>
+        <DCCReference Include="entities\UPedidoItem.pas"/>
+        <DCCReference Include="entities\UEntityBase.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -136,7 +139,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\PedidoVendaTests.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\bin\PedidoVendaTests.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>PedidoVendaTests.exe</RemoteName>
                         <Overwrite>true</Overwrite>
