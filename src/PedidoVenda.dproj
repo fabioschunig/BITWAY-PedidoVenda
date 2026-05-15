@@ -142,6 +142,7 @@
         <DCCReference Include="repositories\UClienteRepository.pas"/>
         <DCCReference Include="repositories\UProdutoRepository.pas"/>
         <DCCReference Include="repositories\UPedidoRepository.pas"/>
+        <DCCReference Include="services\UPedidoService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

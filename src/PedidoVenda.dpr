@@ -12,7 +12,8 @@ uses
   UPedido in 'entities\UPedido.pas',
   UClienteRepository in 'repositories\UClienteRepository.pas',
   UProdutoRepository in 'repositories\UProdutoRepository.pas',
-  UPedidoRepository in 'repositories\UPedidoRepository.pas';
+  UPedidoRepository in 'repositories\UPedidoRepository.pas',
+  UPedidoService in 'services\UPedidoService.pas';
 
 {$R *.res}
 

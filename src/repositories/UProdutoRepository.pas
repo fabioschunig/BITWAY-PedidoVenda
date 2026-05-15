@@ -9,6 +9,7 @@ type
   TProdutoRepository = class
   public
     class function ObterPorCodigo(const iCodigo: Integer): TProduto;
+    class function ValidarSeExiste(const iCodigo: Integer): Boolean;
   end;
 
 implementation
@@ -54,6 +55,19 @@ begin
     Result.PrecoVenda := aQuery.FieldByName('PRECO_VENDA').AsCurrency;
   finally
     aQuery.Free;
+  end;
+end;
+
+class function TProdutoRepository.ValidarSeExiste(const iCodigo: Integer): Boolean;
+var
+  aProduto: TProduto;
+begin
+  aProduto := nil;
+  try
+    aProduto := ObterPorCodigo(iCodigo);
+    Result := aProduto <> nil;
+  finally
+    aProduto.Free;
   end;
 end;
 

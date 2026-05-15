@@ -9,6 +9,7 @@ type
   TClienteRepository = class
   public
     class function ObterPorCodigo(const iCodigo: Integer): TCliente;
+    class function ValidarSeExiste(const iCodigo: Integer): Boolean;
   end;
 
 implementation
@@ -55,6 +56,19 @@ begin
     Result.UF := aQuery.FieldByName('UF').AsString;
   finally
     aQuery.Free;
+  end;
+end;
+
+class function TClienteRepository.ValidarSeExiste(const iCodigo: Integer): Boolean;
+var
+  aCliente: TCliente;
+begin
+  aCliente := nil;
+  try
+    aCliente := ObterPorCodigo(iCodigo);
+    Result := aCliente <> nil;
+  finally
+    aCliente.Free;
   end;
 end;
 
