@@ -29,3 +29,6 @@ __history/
 # Temporários / backup
 *.~*
 *.bak
+
+# Arquivos de configuração
+config.ini
