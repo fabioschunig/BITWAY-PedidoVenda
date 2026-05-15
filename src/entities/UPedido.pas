@@ -5,10 +5,11 @@ interface
 uses
   System.Generics.Collections,
   System.SysUtils,
-  uPedidoItem;
+  UEntityBase,
+  UPedidoItem;
 
 type
-  TPedido = class
+  TPedido = class(TEntityBase)
   private
     FNumeroPedido: Integer;
     FDataEmissao: TDateTime;

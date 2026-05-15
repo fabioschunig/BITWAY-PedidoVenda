@@ -2,8 +2,11 @@ unit UProduto;
 
 interface
 
+uses
+  UEntityBase;
+
 type
-  TProduto = class
+  TProduto = class(TEntityBase)
   private
     FCodigo: Integer;
     FDescricao: string;

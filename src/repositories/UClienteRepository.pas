@@ -3,73 +3,53 @@ unit UClienteRepository;
 interface
 
 uses
-  uCliente;
+  Data.DB,
+  FireDAC.Comp.Client,
+  URepositoryBase,
+  UCliente;
 
 type
-  TClienteRepository = class
-  public
-    class function ObterPorCodigo(const iCodigo: Integer): TCliente;
-    class function ValidarSeExiste(const iCodigo: Integer): Boolean;
+  TClienteRepository = class(TRepositoryBase<TCliente>)
+  protected
+    class function GetColumns: string; override;
+    class function GetTableName: string; override;
+    class function GetPrimaryKey: string; override;
+
+    class function MapEntity(aQuery: TFDQuery): TCliente; override;
   end;
 
 implementation
 
 uses
   System.SysUtils,
-  Data.DB,
-  FireDAC.Comp.Client,
   FireDAC.Stan.Param,
-  uDM;
+  UDM;
 
 { TClienteRepository }
 
-class function TClienteRepository.ObterPorCodigo(const iCodigo: Integer): TCliente;
-var
-  aQuery: TFDQuery;
+class function TClienteRepository.GetColumns: string;
 begin
-  Result := nil;
-
-  if iCodigo <= 0 then
-    Exit;
-
-  aQuery := TFDQuery.Create(nil);
-  try
-    aQuery.Connection := fDM.FDConnection;
-
-    aQuery.SQL.Text :=
-      'SELECT ' +
-      '  CODIGO, NOME, CIDADE, UF ' +
-      'FROM CLIENTE ' +
-      'WHERE CODIGO = :CODIGO';
-
-    aQuery.ParamByName('CODIGO').AsInteger := iCodigo;
-
-    aQuery.Open;
-
-    if aQuery.IsEmpty then
-      Exit;
-
-    Result := TCliente.Create;
-    Result.Codigo := aQuery.FieldByName('CODIGO').AsInteger;
-    Result.Nome := aQuery.FieldByName('NOME').AsString;
-    Result.Cidade := aQuery.FieldByName('CIDADE').AsString;
-    Result.UF := aQuery.FieldByName('UF').AsString;
-  finally
-    aQuery.Free;
-  end;
+  Result := 'CODIGO, NOME, CIDADE, UF';
 end;
 
-class function TClienteRepository.ValidarSeExiste(const iCodigo: Integer): Boolean;
-var
-  aCliente: TCliente;
+class function TClienteRepository.GetTableName: string;
 begin
-  aCliente := nil;
-  try
-    aCliente := ObterPorCodigo(iCodigo);
-    Result := aCliente <> nil;
-  finally
-    aCliente.Free;
-  end;
+  Result := 'CLIENTE';
+end;
+
+class function TClienteRepository.GetPrimaryKey: string;
+begin
+  Result := 'CODIGO';
+end;
+
+class function TClienteRepository.MapEntity(aQuery: TFDQuery): TCliente;
+begin
+  Result := TCliente.Create;
+
+  Result.Codigo := aQuery.FieldByName('CODIGO').AsInteger;
+  Result.Nome := aQuery.FieldByName('NOME').AsString;
+  Result.Cidade := aQuery.FieldByName('CIDADE').AsString;
+  Result.UF := aQuery.FieldByName('UF').AsString;
 end;
 
 end.

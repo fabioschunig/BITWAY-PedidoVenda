@@ -2,8 +2,11 @@ unit UCliente;
 
 interface
 
+uses
+  UEntityBase;
+
 type
-  TCliente = class
+  TCliente = class(TEntityBase)
   private
     FCodigo: Integer;
     FNome: string;

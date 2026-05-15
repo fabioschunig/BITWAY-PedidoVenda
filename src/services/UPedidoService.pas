@@ -18,9 +18,9 @@ implementation
 
 uses
   System.SysUtils,
-  uClienteRepository,
-  uProdutoRepository,
-  uPedidoRepository;
+  UClienteRepository,
+  UProdutoRepository,
+  UPedidoRepository;
 
 { TPedidoService }
 

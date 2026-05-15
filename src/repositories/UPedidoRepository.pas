@@ -3,7 +3,7 @@ unit UPedidoRepository;
 interface
 
 uses
-  uPedido, uPedidoItem;
+  UPedido, UPedidoItem;
 
 type
   TPedidoRepository = class
@@ -26,7 +26,7 @@ uses
   FireDAC.Comp.Client,
   FireDAC.Stan.Param,
   FireDAC.DApt,
-  uDM;
+  UDM;
 
 { TPedidoRepository }
 

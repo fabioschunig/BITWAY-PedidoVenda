@@ -2,8 +2,11 @@ unit UPedidoItem;
 
 interface
 
+uses
+  UEntityBase;
+
 type
-  TPedidoItem = class
+  TPedidoItem = class(TEntityBase)
   private
     FID: Integer;
     FCodigoProduto: Integer;
