@@ -1,0 +1,31 @@
+# Compilados
+*.dcu
+*.exe
+*.bpl
+*.dcp
+
+# Debug
+*.map
+*.tds
+*.rsm
+
+# Arquivos locais da IDE
+*.local
+*.dsk
+*.identcache
+*.stat
+
+# Build folders
+Win32/
+Win64/
+
+# Debug/Release
+Debug/
+Release/
+
+# Histórico automático
+__history/
+
+# Temporários / backup
+*.~*
+*.bak
