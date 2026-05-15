@@ -32,3 +32,6 @@ __history/
 
 # Arquivos de configuração
 config.ini
+
+# Arquivos de teste
+dunitx-results.xml
