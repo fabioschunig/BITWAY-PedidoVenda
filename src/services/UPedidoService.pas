@@ -56,7 +56,10 @@ procedure TPedidoService.Gravar(APedido: TPedido);
 begin
   Validar(APedido);
 
-  TPedidoRepository.Salvar(APedido);
+  if APedido.NumeroPedido = 0 then
+    TPedidoRepository.Inserir(APedido)
+  else
+    TPedidoRepository.Atualizar(APedido);
 end;
 
 function TPedidoService.Carregar(const iNumeroPedido: Integer): TPedido;

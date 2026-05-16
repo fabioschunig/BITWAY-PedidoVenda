@@ -8,12 +8,15 @@ uses
 type
   TPedidoRepository = class
   private
-    class procedure SalvarPedido(APedido: TPedido);
+    class procedure InserirPedido(APedido: TPedido);
+    class procedure AtualizarPedido(APedido: TPedido);
     class procedure SalvarItem(const iNumeroPedido: Integer;
       APedidoItem: TPedidoItem);
+    class procedure ExcluirItens(const iNumeroPedido: Integer);
   public
     class function GerarNumeroPedido: Integer;
-    class procedure Salvar(APedido: TPedido);
+    class procedure Inserir(APedido: TPedido);
+    class procedure Atualizar(APedido: TPedido);
     class function Carregar(const iNumeroPedido: Integer): TPedido;
     class procedure Excluir(const iNumeroPedido: Integer);
   end;
@@ -50,7 +53,7 @@ begin
   end;
 end;
 
-class procedure TPedidoRepository.SalvarPedido(APedido: TPedido);
+class procedure TPedidoRepository.InserirPedido(APedido: TPedido);
 var
   aQuery: TFDQuery;
 begin
@@ -70,6 +73,40 @@ begin
       '  :CODIGO_CLIENTE, ' +
       '  :VALOR_TOTAL ' +
       ')';
+
+    aQuery.ParamByName('NUMERO_PEDIDO').AsInteger :=
+      APedido.NumeroPedido;
+
+    aQuery.ParamByName('DATA_EMISSAO').AsDateTime :=
+      APedido.DataEmissao;
+
+    aQuery.ParamByName('CODIGO_CLIENTE').AsInteger :=
+      APedido.CodigoCliente;
+
+    aQuery.ParamByName('VALOR_TOTAL').AsCurrency :=
+      APedido.ValorTotal;
+
+    aQuery.ExecSQL;
+  finally
+    aQuery.Free;
+  end;
+end;
+
+class procedure TPedidoRepository.AtualizarPedido(APedido: TPedido);
+var
+  aQuery: TFDQuery;
+begin
+  aQuery := TFDQuery.Create(nil);
+  try
+    aQuery.Connection := fDM.FDConnection;
+
+    aQuery.SQL.Text :=
+      'UPDATE PEDIDO SET ' +
+      '  DATA_EMISSAO = :DATA_EMISSAO, ' +
+      '  CODIGO_CLIENTE = :CODIGO_CLIENTE, ' +
+      '  VALOR_TOTAL = :VALOR_TOTAL ' +
+      'WHERE ' +
+      '  NUMERO_PEDIDO = :NUMERO_PEDIDO';
 
     aQuery.ParamByName('NUMERO_PEDIDO').AsInteger :=
       APedido.NumeroPedido;
@@ -133,19 +170,41 @@ begin
   end;
 end;
 
-class procedure TPedidoRepository.Salvar(APedido: TPedido);
+class procedure TPedidoRepository.Inserir(APedido: TPedido);
 var
   aItem: TPedidoItem;
 begin
   fDM.FDConnection.StartTransaction;
 
   try
-    if APedido.NumeroPedido = 0 then
-      APedido.NumeroPedido := GerarNumeroPedido;
+    APedido.NumeroPedido := GerarNumeroPedido;
 
     // PEDIDO
-    aPedido.AtualizarTotal;
-    SalvarPedido(APedido);
+    InserirPedido(APedido);
+
+    // ITENS
+    for aItem in APedido.Itens do
+      SalvarItem(APedido.NumeroPedido, aItem);
+
+    fDM.FDConnection.Commit;
+  except
+    fDM.FDConnection.Rollback;
+    raise;
+  end;
+end;
+
+class procedure TPedidoRepository.Atualizar(APedido: TPedido);
+var
+  aItem: TPedidoItem;
+begin
+  fDM.FDConnection.StartTransaction;
+
+  try
+    // PEDIDO
+    AtualizarPedido(APedido);
+
+    // EXCLUI TODOS OS ITENS DO PEDIDO
+    ExcluirItens(APedido.NumeroPedido);
 
     // ITENS
     for aItem in APedido.Itens do
@@ -178,9 +237,13 @@ begin
     // PEDIDO
     aPedidoQuery.SQL.Text :=
       'SELECT ' +
-      '  NUMERO_PEDIDO, DATA_EMISSAO, CODIGO_CLIENTE, VALOR_TOTAL ' +
-      'FROM PEDIDO ' +
-      'WHERE NUMERO_PEDIDO = :NUMERO';
+      '  P.NUMERO_PEDIDO, P.DATA_EMISSAO, ' +
+      '  P.CODIGO_CLIENTE, C.NOME, C.CIDADE, C.UF, ' +
+      '  P.VALOR_TOTAL ' +
+      'FROM PEDIDO P ' +
+      'INNER JOIN CLIENTE C ' +
+      '  ON C.CODIGO = P.CODIGO_CLIENTE ' +
+      'WHERE P.NUMERO_PEDIDO = :NUMERO';
 
     aPedidoQuery.ParamByName('NUMERO').AsInteger := iNumeroPedido;
 
@@ -194,6 +257,9 @@ begin
     Result.NumeroPedido := aPedidoQuery.FieldByName('NUMERO_PEDIDO').AsInteger;
     Result.DataEmissao := aPedidoQuery.FieldByName('DATA_EMISSAO').AsDateTime;
     Result.CodigoCliente := aPedidoQuery.FieldByName('CODIGO_CLIENTE').AsInteger;
+    Result.NomeCliente := aPedidoQuery.FieldByName('NOME').AsString;
+    Result.Cidade := aPedidoQuery.FieldByName('CIDADE').AsString;
+    Result.UF := aPedidoQuery.FieldByName('UF').AsString;
 
     // ITENS
     aItemQuery.SQL.Text :=
@@ -244,13 +310,10 @@ begin
   try
     aQuery := TFDQuery.Create(nil);
     try
-      aQuery.Connection := fDM.FDConnection;
+      // EXCLUI TODOS OS ITENS DO PEDIDO
+      ExcluirItens(iNumeroPedido);
 
-      aQuery.SQL.Text :=
-        'DELETE FROM PEDIDO_ITEM ' +
-        'WHERE NUMERO_PEDIDO = :NUMERO';
-      aQuery.ParamByName('NUMERO').AsInteger := iNumeroPedido;
-      aQuery.ExecSQL;
+      aQuery.Connection := fDM.FDConnection;
 
       aQuery.SQL.Text :=
         'DELETE FROM PEDIDO ' +
@@ -265,6 +328,27 @@ begin
   except
     fDM.FDConnection.Rollback;
     raise;
+  end;
+end;
+
+class procedure TPedidoRepository.ExcluirItens(const iNumeroPedido: Integer);
+var
+  aQuery: TFDQuery;
+begin
+  if iNumeroPedido <= 0 then
+    Exit;
+
+  aQuery := TFDQuery.Create(nil);
+  try
+    aQuery.Connection := fDM.FDConnection;
+
+    aQuery.SQL.Text :=
+      'DELETE FROM PEDIDO_ITEM ' +
+      'WHERE NUMERO_PEDIDO = :NUMERO';
+    aQuery.ParamByName('NUMERO').AsInteger := iNumeroPedido;
+    aQuery.ExecSQL;
+  finally
+    aQuery.Free;
   end;
 end;
 
