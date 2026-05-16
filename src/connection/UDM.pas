@@ -49,6 +49,7 @@ begin
   FDConnection.Params.Add('User_Name=' + aConfig.Username);
   FDConnection.Params.Add('Password=' + aConfig.Password);
   FDConnection.Params.Add('Protocol=TCPIP');
+  FDConnection.Params.Add('CharacterSet=UTF8');
   FDPhysFBDriverLink.VendorLib := aConfig.ClientLibrary;
 end;
 
