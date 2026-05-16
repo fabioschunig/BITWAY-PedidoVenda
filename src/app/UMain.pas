@@ -79,7 +79,7 @@ type
     procedure LimparCamposItem;
 
     procedure AtualizarGrid;
-    procedure AtualizarTotal;
+    procedure AtualizarTotalPedido;
   end;
 
 var
@@ -246,7 +246,7 @@ begin
   end;
 end;
 
-procedure TfMain.AtualizarTotal;
+procedure TfMain.AtualizarTotalPedido;
 begin
   edTotalPedido.Text := FormatFloat('0.00', FPedido.ValorTotal);
 end;
@@ -288,7 +288,7 @@ begin
   edUF.Text := FPedido.UF;
 
   AtualizarGrid;
-  AtualizarTotal;
+  AtualizarTotalPedido;
 end;
 
 procedure TfMain.bNovoPedidoClick(Sender: TObject);
@@ -303,6 +303,8 @@ begin
   // libera Pedido atual e cria novo
   FreeAndNil(FPedido);
   FPedido := TPedido.Create;
+
+  AtualizarTotalPedido;
 end;
 
 procedure TfMain.bCancelarPedidoClick(Sender: TObject);
@@ -348,6 +350,7 @@ begin
       aPedidoService.Gravar(FPedido);
       ShowMessage('Pedido gravado com sucesso: ' + FPedido.NumeroPedido.ToString);
       edNumeroPedido.Text := FPedido.NumeroPedido.ToString;
+      AtualizarTotalPedido;
     except
       on E: Exception do
         ShowMessage('Erro ao gravar pedido: ' + E.Message);
@@ -388,7 +391,7 @@ begin
   FPedido.AtualizarTotal;
 
   AtualizarGrid;
-  AtualizarTotal;
+  AtualizarTotalPedido;
 
   LimparCamposItem;
 
@@ -498,7 +501,7 @@ begin
   // FPedido.AtualizarTotal;
 
   AtualizarGrid;
-  AtualizarTotal;
+  AtualizarTotalPedido;
 end;
 
 end.
