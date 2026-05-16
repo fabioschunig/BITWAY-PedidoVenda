@@ -66,11 +66,13 @@ begin
       '  NUMERO_PEDIDO, ' +
       '  DATA_EMISSAO, ' +
       '  CODIGO_CLIENTE, ' +
+      '  OBSERVACAO, ' +
       '  VALOR_TOTAL ' +
       ') VALUES (' +
       '  :NUMERO_PEDIDO, ' +
       '  :DATA_EMISSAO, ' +
       '  :CODIGO_CLIENTE, ' +
+      '  :OBSERVACAO, ' +
       '  :VALOR_TOTAL ' +
       ')';
 
@@ -82,6 +84,9 @@ begin
 
     aQuery.ParamByName('CODIGO_CLIENTE').AsInteger :=
       APedido.CodigoCliente;
+
+    aQuery.ParamByName('OBSERVACAO').AsString :=
+      APedido.Observacao;
 
     aQuery.ParamByName('VALOR_TOTAL').AsCurrency :=
       APedido.ValorTotal;
@@ -104,6 +109,7 @@ begin
       'UPDATE PEDIDO SET ' +
       '  DATA_EMISSAO = :DATA_EMISSAO, ' +
       '  CODIGO_CLIENTE = :CODIGO_CLIENTE, ' +
+      '  OBSERVACAO = :OBSERVACAO, ' +
       '  VALOR_TOTAL = :VALOR_TOTAL ' +
       'WHERE ' +
       '  NUMERO_PEDIDO = :NUMERO_PEDIDO';
@@ -116,6 +122,9 @@ begin
 
     aQuery.ParamByName('CODIGO_CLIENTE').AsInteger :=
       APedido.CodigoCliente;
+
+    aQuery.ParamByName('OBSERVACAO').AsString :=
+      APedido.Observacao;
 
     aQuery.ParamByName('VALOR_TOTAL').AsCurrency :=
       APedido.ValorTotal;
@@ -239,7 +248,7 @@ begin
       'SELECT ' +
       '  P.NUMERO_PEDIDO, P.DATA_EMISSAO, ' +
       '  P.CODIGO_CLIENTE, C.NOME, C.CIDADE, C.UF, ' +
-      '  P.VALOR_TOTAL ' +
+      '  P.OBSERVACAO, P.VALOR_TOTAL ' +
       'FROM PEDIDO P ' +
       'INNER JOIN CLIENTE C ' +
       '  ON C.CODIGO = P.CODIGO_CLIENTE ' +
@@ -260,6 +269,7 @@ begin
     Result.NomeCliente := aPedidoQuery.FieldByName('NOME').AsString;
     Result.Cidade := aPedidoQuery.FieldByName('CIDADE').AsString;
     Result.UF := aPedidoQuery.FieldByName('UF').AsString;
+    Result.Observacao := aPedidoQuery.FieldByName('OBSERVACAO').AsString;
 
     // ITENS
     aItemQuery.SQL.Text :=

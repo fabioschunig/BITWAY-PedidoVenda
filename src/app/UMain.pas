@@ -41,6 +41,8 @@ type
     edValorUnitario: TEdit;
     edValorTotalItem: TEdit;
     edTotalPedido: TEdit;
+    Label9: TLabel;
+    edObservacao: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edCodigoClienteExit(Sender: TObject);
@@ -286,6 +288,7 @@ begin
   edNomeCliente.Text := FPedido.NomeCliente;
   edCidade.Text := FPedido.Cidade;
   edUF.Text := FPedido.UF;
+  edObservacao.Text := FPedido.Observacao;
 
   AtualizarGrid;
   AtualizarTotalPedido;
@@ -347,6 +350,7 @@ begin
   try
     try
       FPedido.DataEmissao := edDataEmissao.DateTime;
+      FPedido.Observacao := edObservacao.Text;
       aPedidoService.Gravar(FPedido);
       ShowMessage('Pedido gravado com sucesso: ' + FPedido.NumeroPedido.ToString);
       edNumeroPedido.Text := FPedido.NumeroPedido.ToString;
@@ -416,6 +420,7 @@ procedure TfMain.LimparTela;
 begin
   edNumeroPedido.Clear;
   edDataEmissao.DateTime := Now;
+  edObservacao.Clear;
   LimparCliente;
   LimparCamposItem;
   ConfigurarGrid;

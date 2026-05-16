@@ -17,6 +17,7 @@ type
     FNomeCliente: string;
     FCidade: string;
     FUF: string;
+    FObservacao: string;
     FValorTotal: Currency;
 
     FItens: TObjectList<TPedidoItem>;
@@ -32,6 +33,7 @@ type
     property NomeCliente: string read FNomeCliente write FNomeCliente;
     property Cidade: string read FCidade write FCidade;
     property UF: string read FUF write FUF;
+    property Observacao: string read FObservacao write FObservacao;
     property ValorTotal: Currency read FValorTotal;
     property Itens: TObjectList<TPedidoItem> read FItens;
   end;
