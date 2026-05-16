@@ -223,6 +223,7 @@ object fMain: TfMain
       Height = 309
       Align = alClient
       TabOrder = 0
+      OnDblClick = grdItensDblClick
       OnKeyDown = grdItensKeyDown
     end
   end

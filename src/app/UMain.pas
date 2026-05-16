@@ -54,6 +54,7 @@ type
     procedure bInserirAtualizarItemClick(Sender: TObject);
     procedure grdItensKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure grdItensDblClick(Sender: TObject);
   private
     FPedido: TPedido;
     FEditingItemID: Integer;
@@ -429,6 +430,16 @@ begin
 
   if edCodigoProduto.CanFocus then
     edCodigoProduto.SetFocus;
+end;
+
+procedure TfMain.grdItensDblClick(Sender: TObject);
+var
+  iIndex: Integer;
+begin
+  iIndex := grdItens.Row - 1;
+
+  // DUPLO CLIQUE PARA EDITAR
+  CarregarItemParaEdicao(iIndex);
 end;
 
 procedure TfMain.grdItensKeyDown(Sender: TObject; var Key: Word;
