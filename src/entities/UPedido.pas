@@ -14,6 +14,9 @@ type
     FNumeroPedido: Integer;
     FDataEmissao: TDateTime;
     FCodigoCliente: Integer;
+    FNomeCliente: string;
+    FCidade: string;
+    FUF: string;
     FValorTotal: Currency;
 
     FItens: TObjectList<TPedidoItem>;
@@ -28,6 +31,9 @@ type
     property NumeroPedido: Integer read FNumeroPedido write FNumeroPedido;
     property DataEmissao: TDateTime read FDataEmissao write FDataEmissao;
     property CodigoCliente: Integer read FCodigoCliente write FCodigoCliente;
+    property NomeCliente: string read FNomeCliente write FNomeCliente;
+    property Cidade: string read FCidade write FCidade;
+    property UF: string read FUF write FUF;
     property ValorTotal: Currency read FValorTotal;
     property Itens: TObjectList<TPedidoItem> read FItens;
   end;
