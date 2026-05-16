@@ -90,9 +90,9 @@ implementation
 uses
   System.UITypes,
   UCliente,
-  UClienteRepository,
+  UClienteService,
   UProduto,
-  UProdutoRepository,
+  UProdutoService,
   UPedidoItem;
 
 {$R *.dfm}
@@ -155,7 +155,7 @@ begin
   if iCodigoCliente <= 0 then
     Exit;
 
-  aCliente := TClienteRepository.ObterPorCodigo(iCodigoCliente);
+  aCliente := TClienteService.Carregar(iCodigoCliente);
 
   if aCliente = nil then
   begin
@@ -188,7 +188,7 @@ begin
   if iCodigoProduto <= 0 then
     Exit;
 
-  aProduto := TProdutoRepository.ObterPorCodigo(iCodigoProduto);
+  aProduto := TProdutoService.Carregar(iCodigoProduto);
 
   if aProduto = nil then
   begin

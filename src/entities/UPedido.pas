@@ -20,8 +20,6 @@ type
     FValorTotal: Currency;
 
     FItens: TObjectList<TPedidoItem>;
-
-    procedure RecalcularTotal;
   public
     constructor Create;
     destructor Destroy; override;
@@ -56,7 +54,7 @@ begin
   inherited;
 end;
 
-procedure TPedido.RecalcularTotal;
+procedure TPedido.AtualizarTotal;
 var
   aItem: TPedidoItem;
 begin
@@ -64,11 +62,6 @@ begin
 
   for aItem in FItens do
     FValorTotal := FValorTotal + aItem.VlrTotal;
-end;
-
-procedure TPedido.AtualizarTotal;
-begin
-  RecalcularTotal;
 end;
 
 end.
