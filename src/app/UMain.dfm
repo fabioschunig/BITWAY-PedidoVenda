@@ -17,7 +17,7 @@ object fMain: TfMain
     Left = 0
     Top = 0
     Width = 784
-    Height = 99
+    Height = 122
     Align = alTop
     TabOrder = 0
     object Label1: TLabel
@@ -43,6 +43,14 @@ object fMain: TfMain
       Height = 15
       Alignment = taRightJustify
       Caption = 'Cliente:'
+    end
+    object Label9: TLabel
+      Left = 4
+      Top = 89
+      Width = 70
+      Height = 15
+      Alignment = taRightJustify
+      Caption = 'Observa'#231#245'es:'
     end
     object edNumeroPedido: TEdit
       Left = 80
@@ -104,14 +112,24 @@ object fMain: TfMain
       Enabled = False
       TabOrder = 6
     end
+    object edObservacao: TEdit
+      Left = 80
+      Top = 86
+      Width = 689
+      Height = 23
+      MaxLength = 255
+      TabOrder = 7
+      OnExit = edCodigoClienteExit
+    end
   end
   object pnItem: TPanel
     Left = 0
-    Top = 99
+    Top = 122
     Width = 784
     Height = 94
     Align = alTop
     TabOrder = 1
+    ExplicitTop = 99
     object Label4: TLabel
       Left = 28
       Top = 17
@@ -211,20 +229,23 @@ object fMain: TfMain
   end
   object pnGrid: TPanel
     Left = 0
-    Top = 193
+    Top = 216
     Width = 784
-    Height = 311
+    Height = 288
     Align = alClient
     TabOrder = 2
+    ExplicitTop = 193
+    ExplicitHeight = 311
     object grdItens: TStringGrid
       Left = 1
       Top = 1
       Width = 782
-      Height = 309
+      Height = 286
       Align = alClient
       TabOrder = 0
       OnDblClick = grdItensDblClick
       OnKeyDown = grdItensKeyDown
+      ExplicitHeight = 309
     end
   end
   object pnTotal: TPanel
