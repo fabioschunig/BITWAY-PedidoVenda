@@ -503,7 +503,8 @@ begin
   FPedido.Itens.Delete(iIndex);
 
   // simulando bug de não atualizar o total - requisito do desafio no item 4.2
-  // FPedido.AtualizarTotal;
+  // >> bug corrigido
+  FPedido.AtualizarTotal;
 
   AtualizarGrid;
   AtualizarTotalPedido;
