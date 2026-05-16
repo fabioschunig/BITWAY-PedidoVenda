@@ -15,7 +15,9 @@ uses
   UPedidoRepository in 'repositories\UPedidoRepository.pas',
   UPedidoService in 'services\UPedidoService.pas',
   UEntityBase in 'entities\UEntityBase.pas',
-  URepositoryBase in 'repositories\URepositoryBase.pas';
+  URepositoryBase in 'repositories\URepositoryBase.pas',
+  UClienteService in 'services\UClienteService.pas',
+  UProdutoService in 'services\UProdutoService.pas';
 
 {$R *.res}
 
