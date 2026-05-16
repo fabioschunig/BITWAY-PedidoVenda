@@ -343,6 +343,7 @@ begin
   aPedidoService := TPedidoService.Create;
   try
     try
+      FPedido.DataEmissao := edDataEmissao.DateTime;
       aPedidoService.Gravar(FPedido);
       ShowMessage('Pedido gravado com sucesso: ' + FPedido.NumeroPedido.ToString);
       edNumeroPedido.Text := FPedido.NumeroPedido.ToString;
